@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState } from 'react';
 import MapComponent from './components/MapComponent';
 import Sidebar from './components/Sidebar';
