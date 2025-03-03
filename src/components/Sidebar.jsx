@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import './Sidebar.scss';
 
 function Sidebar({ weatherData, loading, error }) {
