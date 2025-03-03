@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import { useState } from 'react';
+import MapComponent from './components/MapComponent';
+import Sidebar from './components/Sidebar';
+import SearchBar from './components/SearchBar';
+import './App.scss';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [darkMode, setDarkMode] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className={`app ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="header">
+        <h1>Weather Map</h1>
+        <button className="dark-mode-toggle" onClick={toggleDarkMode}>
+          {darkMode ? '☀️' : '🌙'}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <SearchBar setSelectedLocation={setSelectedLocation} />
+      <div className="main-content">
+        <MapComponent 
+          onLocationSelect={handleLocationSelect} 
+          selectedLocation={selectedLocation}
+          setWeatherData={setWeatherData}
+          setLoading={setLoading}
+          setError={setError}
+        />
+        <Sidebar 
+          weatherData={weatherData} 
+          loading={loading}
+          error={error}
+        />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
